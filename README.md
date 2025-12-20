@@ -14,3 +14,10 @@ If you want to use this API in English, I will try to translate to English. Plea
   - ロールの一括アサイン用サンプル
 - cloud_api_sample_bulk_invite.py
   - ユーザーの一括招待のサンプル
+
+# 使い方
+基本的なコンセプトとして、設定情報はPythonと同じフォルダにあるJSONファイルに記載しています。
+ - credential.json
+   - アクセストークンとリフレッシュトークンを保存 
+ - cloud_setting.json
+   - クラウドの設定を記載（ayx_cloud_url、refresh_url、oauth_client_id）
