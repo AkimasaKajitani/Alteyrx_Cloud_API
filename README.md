@@ -16,8 +16,11 @@ If you want to use this API in English, I will try to translate to English. Plea
   - ユーザーの一括招待のサンプル
 
 # 使い方
-基本的なコンセプトとして、設定情報はPythonと同じフォルダにあるJSONファイルに記載しています。
+基本的なコンセプトとして、設定情報とコードは分離しています。設定情報の保存先としてはPythonと同じフォルダにあるJSONファイルとしています。そのため、このJSONさえ変更すれば動作する作りとなっています。
  - credential.json
    - アクセストークンとリフレッシュトークンを保存 
  - cloud_setting.json
    - クラウドの設定を記載（ayx_cloud_url、refresh_url、oauth_client_id）
+いずれの設定も、Alteryx Cloud Platform上で設定情報を取得します。Alteryx Cloud Platformにログインし、[ユーザー設定]-[OAuth 2.0 APIトークン]にてトークンを作成し、トークン情報をcredential.jsonに記載します。同じくクラウド設定も取得できます。
+
+それぞれのサンプルコードで必要になる設定は、それぞれのコードの説明をお読みください。
