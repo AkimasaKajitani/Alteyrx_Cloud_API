@@ -51,5 +51,8 @@ Alteryx CloudのAPIを使うために必要な情報などを取得するため�
   - workspaceusers_[ワークスペースID]_authorizationRoles.csv　※Roleのポリシー
   - workspaceusers_[ワークスペースID]_maximalPrivileges.csv　※maximalPrivilegesを展開したデータ
   - workspaceusers_[ワークスペースID]_peopleworkspaces.csv　※peopleworkspacesを展開したデータ
+- 以下のモジュールのインストールが必要です
+  - pandas
+  - pyyaml
 
  
