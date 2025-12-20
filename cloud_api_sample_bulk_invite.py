@@ -1,5 +1,6 @@
 import urllib
 import json
+import sys
 import AYX_CloudAPI
 
 # ============== このサンプルは何ですか？ ================
@@ -35,6 +36,11 @@ def invite_users(aac_url, access_token, workspaceid, emails):
         return json.load(response)
 
 # ============== メインコード ==============
+# サンプル設定の場合は実行しない
+if users == ["youremail@example.com"]:
+    print("サンプルの設定のままです。設定を書き換えて実行してください。")
+    sys.exit()
+
 # クラウド設定の読み込み
 AYX_CLOUD_URL, REFRESH_URL, OAUTH_CLIENT_ID = AYX_CloudAPI.load_cloud_setting(CLOUD_SETTING_JSON)
 

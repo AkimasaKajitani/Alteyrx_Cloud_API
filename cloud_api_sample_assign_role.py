@@ -1,5 +1,6 @@
 import urllib
 import json
+import sys
 import AYX_CloudAPI
 
 # ============== このサンプルは何ですか？ ================
@@ -12,8 +13,8 @@ import AYX_CloudAPI
 # ======================================================
 
 # ============== 設定 ==============
-policyId = 33278 # 割り当てたいロールのpolicyId
-users = [1302] # 割り当てたいユーザーID（personId）のリスト（カンマ区切りで複数指定可能）
+policyId = -1 # 割り当てたいロールのpolicyId
+users = [-1] # 割り当てたいユーザーID（personId）のリスト（カンマ区切りで複数指定可能）
 
 # その他設定(固定値)
 JSON_FILE_PATH = "credential.json"
@@ -34,6 +35,11 @@ def assign_role_to_users(aac_url, access_token, policyId, users):
         return json.load(response)
 
 # ============== メインコード ==============
+# サンプル設定の場合は実行しない
+if policyId == -1:
+    print("サンプルの設定のままです。設定を書き換えて実行してください。")
+    sys.exit()
+
 # クラウド設定の読み込み
 AYX_CLOUD_URL, REFRESH_URL, OAUTH_CLIENT_ID = AYX_CloudAPI.load_cloud_setting(CLOUD_SETTING_JSON)
 
