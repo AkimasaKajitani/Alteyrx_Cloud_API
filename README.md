@@ -2,12 +2,13 @@
 
 Alteryx CloudのAPIのサンプルコード置き場です。Alteryx非公認のプロジェクトですので、ご利用は自己責任でお願いします。本プロジェクトの成果物を利用し、何らかの損害を被ったとしても当方は一切の責任を持ちません。
 ライセンスはMIT Licenseとします。商用利用可能です。
-
+<br><br>
 
 # Why Japanese?
 
 一旦日本語で進めます。要望があれば英語版を・・・。
 If you want to use this API in English, I will try to translate to English. Please contact with me via Alteryx Community.
+<br><br>
 
 
 # 各ファイルの説明
@@ -18,10 +19,17 @@ If you want to use this API in English, I will try to translate to English. Plea
   - OAuth2.0クレデンシャルを取得したワークスペースの基本情報を取得するサンプル
 - axy_cloud_api_current_workspaceconfiguration.py
   - OAuth2.0クレデンシャルを取得したワークスペースの基本設定を取得するサンプル
+- axy_cloud_api_current_workspace_manage_role.py
+  - OAuth2.0クレデンシャルを取得したワークスペースのユーザーのロール管理サンプル
+- axy_cloud_api_current_workspace_suspendusers.py
+  - OAuth2.0クレデンシャルを取得したワークスペースでユーザーを一括サスペンド（停止）するサンプル
+- axy_cloud_api_current_workspace_unsuspendusers.py
+  - OAuth2.0クレデンシャルを取得したワークスペースのサスペンドされているユーザーを復帰させるサンプル
 - cloud_api_sample_assign_role.py
   - ロールの一括アサイン用サンプル
 - cloud_api_sample_bulk_invite.py
   - ユーザーの一括招待のサンプル
+<br><br>
 
 
 ## JSONファイル
@@ -29,11 +37,13 @@ If you want to use this API in English, I will try to translate to English. Plea
   - クラウド設定のフォーマットファイル。実際に利用する場合は、ファイル名から「_format」を削除し「cloud_setting.json」というファイル名でお使いください（もしくはコード側をファイル名に合わせてください）
 - credential_format.json
   - クレデンシャル（アクセストークン、リフレッシュトークン）の設定用ファイルフォーマット。実際に利用する場合は、ファイル名から「_format」を削除し「credential.json」というファイル名でお使いください（もしくはコード側をファイル名に合わせてください）。本ライブラリのAPIを使うたびにリフレッシュトークンの更新が発生するため、ファイルは常に上書きされるようになっています。
+<br><br>
 
     
 ## YAMLファイル
 - axy_cloud_api_current_workspaceinfo_config.yaml
   - axy_cloud_api_current_workspaceinfo.py 用の設定ファイル
+<br><br>
 
 
 # 使い方
@@ -45,6 +55,7 @@ If you want to use this API in English, I will try to translate to English. Plea
 いずれの設定も、Alteryx Cloud Platform上で設定情報を取得します。Alteryx Cloud Platformにログインし、[ユーザー設定]-[OAuth 2.0 APIトークン]にてトークンを作成し、トークン情報をcredential.jsonに記載します。同じくクラウド設定も取得できます。
 
 それぞれのサンプルコードで必要になる設定は、それぞれのコードの説明をお読みください。
+<br><br>
 
 ## axy_cloud_api_current_workspaceinfo.py
 Alteryx CloudのAPIを使うために必要な情報などを取得するためのサンプルプログラムを作成しました。このコードは以下のことが実行可能です。
@@ -62,11 +73,25 @@ Alteryx CloudのAPIを使うために必要な情報などを取得するため�
 - 以下のモジュールのインストールが必要です
   - pandas
   - pyyaml
+<br><br>
+
+## axy_cloud_api_current_workspace_manage_role.py
+Alteryx Cloudのワークスペース内のユーザーのロールを管理するサンプルプログラム。指定したフォーマットのリストを読み込み、ロール対してユーザーを削除、追加の順に行います。
+- 対象者リスト：user_role_list.csv（末尾に「_format」とついているCSVファイルを改変してご利用ください）
+- トークンを取得したワークスペース以外のユーザーは無視します。
+- 対象者リストのフォーマットの説明：
+
+| workspaceId | roleId | userId | action | comment |
+|---|---|---|---|---|
+| ワークスペースID | ロールのPolicyId | ユーザーのId | delete もしくは add | コメントがあれば記載してください |
+
+<br><br>
 
 ## axy_cloud_api_current_workspace_suspendusers.py
 Alteryx Cloudのワークスペースに登録しているユーザーをサスペンド（停止）します。サスペンド対象は一覧で指定可能です。
 - 対象者リスト：suspend_user_list.csv（末尾に「_format」とついているCSVファイルを改変してご利用ください）
 - トークンを取得したワークスペース以外のユーザーは無視します。
+<br><br>
 
 ## axy_cloud_api_current_workspace_unsuspendusers.py
 Alteryx Cloudのワークスペースに登録しているサスペンド状態のユーザーをサスペンドから復帰します。サスペンドからの復帰対象は一覧で指定可能です。
