@@ -163,11 +163,22 @@ def delete_role_from_user(aac_url, access_token, policyid, user):
         'Accept': 'application/json'
     }
     request = urllib.request.Request(f'{aac_url}/iam/v1/authorization/roles/{policyid}/people/{user}', headers=headers, method='DELETE')
-    with urllib.request.urlopen(request) as response:
-        if response.status == 200:
-            return "Success"
-        else:
-            return response.status
+    try:
+        with urllib.request.urlopen(request) as response:
+            return f"Success:{policyid}-{user}-{response.status}"
+    except urllib.error.HTTPError as e:
+        # サーバー側からエラーレスポンスが返ってきた場合 (404, 500, etc.) # e.code でステータスコード、e.read() でレスポンスボディを取得可能
+        error_body = e.read().decode('utf-8')
+        print(f"Server Error:{policyid}-{user}-{e.code} - {error_body}")
+        return f"Error:{policyid}-{user}-{e.code}"
+    except urllib.error.URLError as e:
+        # ネットワーク接続エラーやDNSエラーなどの場合
+        print(f"Network Error:{policyid}-{user}-{e.reason}")
+        return f"Network Error:{policyid}-{user}"
+    except Exception as e:
+        # その他の予期せぬエラー
+        print(f"Unexpected Error: {e}")
+        return f"Unexpected Error:{policyid}-{user}"
 
 # 指定したロールから一括でユーザーを削除
 def delete_role_from_users(aac_url, access_token, policyid, users):
@@ -175,6 +186,7 @@ def delete_role_from_users(aac_url, access_token, policyid, users):
     for user in users:
         response = delete_role_from_user(aac_url, access_token, policyid, user)
         results.append({
+            'policyId':policyid,
             'user':user,
             'response':response
         })
