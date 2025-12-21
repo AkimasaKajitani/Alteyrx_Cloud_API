@@ -3,6 +3,7 @@
 本ドキュメントでは、Alteryx Cloud APIに対して、AYX_CloudAPI.py の実装状況を記載しています。
 
 ## Billing
+本ライブラリでは一部のみ実装済み。
 
 | Lv1 | Lv2 | Method | 説明 | 必要ロール | AYX_CloudAPI |
 | --- | --- | --- | --- | --- | --- |
@@ -10,6 +11,7 @@
 |  | /usage/export | GET | 集計使用状況の取得 このAPIを使用するには、次のいずれかのロールが必要です: アカウント管理者 | アカウント管理者 |  |
 
 ## Identity and Access Management（IAM）
+本ライブラリのメイン実装しているAPIです。多くの組織でユーザーマネージメントが必要になりますが、ユーザーマネジメント関連のAPIを本ライブラリでは提供しています。
 
 | Lv1 | Lv2 | Lv3 | Lv4 | Lv5 | Method | 説明 | 必要ロール | AYX_CloudAPI |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -30,6 +32,7 @@ delete_role_from_users |
 |  |  | /current |  |  | GET | 現在のワークスペースに関する情報を取得する |  | get_current_workspace |
 
 ## Plans
+本ライブラリでは未実装。
 
 | Lv1 | Lv2 | Lv3 | Lv4 | Lv5 | Method | 説明 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -55,6 +58,7 @@ delete_role_from_users |
 |  |  | /package |  |  | POST | 提供されたパッケージからプランと関連フローをインポートする。 |
 
 ## Scheduling
+本ライブラリでは未実装。
 
 | Lv1 | Lv2 | Lv3 | Lv4 | Method | 説明 |
 | --- | --- | --- | --- | --- | --- |
@@ -68,5 +72,4 @@ delete_role_from_users |
 |  |  | /count |  | GET | 現在のユーザーが所有するスケジュールの合計数を取得する |
 
 ## Trifacta Classic
-
-レガシープロダクトのため未実装
+レガシープロダクトのため未実装（実装予定なし）
