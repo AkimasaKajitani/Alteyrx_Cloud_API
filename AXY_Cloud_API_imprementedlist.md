@@ -1,6 +1,6 @@
 # ayxcloudapi.py 実装状況
 
-本ドキュメントでは、Alteryx Cloud APIに対して、AYX_CloudAPI.py の実装状況を記載しています。
+本ドキュメントでは、Alteryx Cloud APIに対して、ayxcloudapi.py の実装状況を記載しています。
 
 
 ## Billing
