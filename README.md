@@ -12,7 +12,7 @@ If you want to use this API in English, I will try to translate to English. Plea
 # 各ファイルの説明
 ## pyファイル
 - AYX_CloudAPI.py
-  - APIを使うにあたり共通化すべき機能（認証関係）や、実際によく使われそうな機能を実装。実装状況は https://github.com/AkimasaKajitani/Alteyrx_Cloud_API/blob/main/AXY_Cloud_API_imprementedlist.md 。
+  - APIを使うにあたり共通化すべき機能（認証関係）や、実際によく使われそうな機能を実装。実装状況は[こちら](https://github.com/AkimasaKajitani/Alteyrx_Cloud_API/blob/main/AXY_Cloud_API_imprementedlist.md)です。
 - cloud_api_sample_current_workspaceinfo.py
   - OAuth2.0クレデンシャルを取得したワークスペースの基本情報を取得するサンプル
 - cloud_api_sample_current_workspaceconfiguration.py
