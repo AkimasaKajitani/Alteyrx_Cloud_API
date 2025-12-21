@@ -63,4 +63,13 @@ Alteryx CloudのAPIを使うために必要な情報などを取得するため�
   - pandas
   - pyyaml
 
+## axy_cloud_api_current_workspace_suspendusers.py
+Alteryx Cloudのワークスペースに登録しているユーザーをサスペンド（停止）します。サスペンド対象は一覧で指定可能です。
+- 対象者リスト：suspend_user_list.csv（末尾に「_format」とついているCSVファイルを改変してご利用ください）
+- トークンを取得したワークスペース以外のユーザーは無視します。
+
+## axy_cloud_api_current_workspace_unsuspendusers.py
+Alteryx Cloudのワークスペースに登録しているサスペンド状態のユーザーをサスペンドから復帰します。サスペンドからの復帰対象は一覧で指定可能です。
+- 対象者リスト：unsuspend_user_list.csv（末尾に「_format」とついているCSVファイルを改変してご利用ください）
+- トークンを取得したワークスペース以外のユーザーは無視します。
  
