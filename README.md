@@ -2,15 +2,17 @@
 
 Alteryx CloudのAPIのサンプルコード置き場です。
 
+
 # Why Japanese?
 
 一旦日本語で進めます。要望があれば英語版を・・・。
 If you want to use this API in English, I will try to translate to English. Please contact with me via Alteryx Community.
 
+
 # 各ファイルの説明
 ## pyファイル
 - AYX_CloudAPI.py
-  - トークンを使ってクレデンシャルを取得するなど共通して利用可能な関数を格納しています
+  - APIを使うにあたり共通化すべき機能（認証関係）や、実際によく使われそうな機能を実装。実装状況は https://github.com/AkimasaKajitani/Alteyrx_Cloud_API/blob/main/AXY_Cloud_API_imprementedlist.md 。
 - cloud_api_sample_current_workspaceinfo.py
   - OAuth2.0クレデンシャルを取得したワークスペースの基本情報を取得するサンプル
 - cloud_api_sample_current_workspaceconfiguration.py
@@ -20,15 +22,18 @@ If you want to use this API in English, I will try to translate to English. Plea
 - cloud_api_sample_bulk_invite.py
   - ユーザーの一括招待のサンプル
 
+
 ## JSONファイル
 - cloud_setting_format.json
   - クラウド設定のフォーマットファイル。実際に利用する場合は、ファイル名から「_format」を削除し「cloud_setting.json」というファイル名でお使いください（もしくはコード側をファイル名に合わせてください）
 - credential_format.json
   - クレデンシャル（アクセストークン、リフレッシュトークン）の設定用ファイルフォーマット。実際に利用する場合は、ファイル名から「_format」を削除し「credential.json」というファイル名でお使いください（もしくはコード側をファイル名に合わせてください）
+
     
 ## YAMLファイル
 - cloud_api_sample_current_workspaceinfo_config.yaml
   - cloud_api_sample_current_workspaceinfo.py 用の設定ファイル
+
 
 # 使い方
 基本的なコンセプトとして、設定情報とコードは分離しています。設定情報の保存先としてはPythonと同じフォルダにあるJSONファイルとしています。そのため、このJSONさえ変更すれば動作する作りとなっています。
@@ -40,7 +45,7 @@ If you want to use this API in English, I will try to translate to English. Plea
 
 それぞれのサンプルコードで必要になる設定は、それぞれのコードの説明をお読みください。
 
-# cloud_api_sample_current_workspaceinfo.py
+## cloud_api_sample_current_workspaceinfo.py
 Alteryx CloudのAPIを使うために必要な情報などを取得するためのサンプルプログラムを作成しました。このコードは以下のことが実行可能です。
 - ユーザーリストの取得
 - ワークスペースの基本情報の取得（契約名、ワークスペースID、ワークスペース名）
