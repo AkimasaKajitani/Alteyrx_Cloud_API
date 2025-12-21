@@ -6,6 +6,7 @@ import time
 # ============= 使い方 =============================================
 # 外部JSONファイルにCloudで取得したOAuth2.0 APIトークンのアクセストークン、リフレッシュトークンを貼り付けて保存
 USER_AGENT = "AYX_CloudAPI by AK"
+SLEEP_VALUE = 0.2
 
 # ============= 関数 =============================================
 # JSONファイルの読み込み
@@ -52,7 +53,7 @@ def _refresh_tokens(refresh_token, refresh_url, oauth2_client_id):
   with urllib.request.urlopen(request) as response:
     return json.load(response)
 
-# ===== 外部から呼び出す用関数 =====
+# ========== 外部から呼び出す用関数 ==========
 # トークン更新
 def update_tokens(refresh_url, oauth2_client_id, json_file):
     # JSONファイルから読み込み
@@ -126,7 +127,7 @@ def get_workspace_users_all(aac_url, access_token, workspaceid):
     for offset in range(0, totalPeople, limit):
         data = get_workspace_users(aac_url, access_token, workspaceid, offset, limit)
         all_data.extend(data['data'])
-        time.sleep(0.5)
+        time.sleep(SLEEP_VALUE)
     return all_data
 
 # 指定したワークスペースの設定情報を取得
@@ -139,7 +140,119 @@ def get_workspace_configuration(aac_url, access_token, workspaceid):
     request = urllib.request.Request(f'{aac_url}/iam/v1/workspaces/{workspaceid}/configuration', headers=headers)
     with urllib.request.urlopen(request) as response:
         return json.load(response)
-    
+
+
+# 指定したロールにユーザーをセット
+def set_role_to_users(aac_url, access_token, policyid, users):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'User-Agent': USER_AGENT,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    data_bytes = json.dumps(users).encode('utf-8')
+    request = urllib.request.Request(f'{aac_url}/iam/v1/authorization/roles/{policyid}/people', headers=headers, data=data_bytes, method='PUT')
+    with urllib.request.urlopen(request) as response:
+        return json.load(response)
+
+# 指定したロールからユーザーを削除
+def delete_role_from_user(aac_url, access_token, policyid, user):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'User-Agent': USER_AGENT,
+        'Accept': 'application/json'
+    }
+    request = urllib.request.Request(f'{aac_url}/iam/v1/authorization/roles/{policyid}/people/{user}', headers=headers, method='DELETE')
+    with urllib.request.urlopen(request) as response:
+        if response.status == 200:
+            return "Success"
+        else:
+            return response.status
+
+# 指定したロールから一括でユーザーを削除
+def delete_role_from_users(aac_url, access_token, policyid, users):
+    results = []
+    for user in users:
+        response = delete_role_from_user(aac_url, access_token, policyid, user)
+        results.append({
+            'user':user,
+            'response':response
+        })
+        time.sleep(SLEEP_VALUE)
+    return results
+
+# 指定したユーザーをサスペンドする
+def set_suspend_users(aac_url, access_token, workspaceid, users):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'User-Agent': USER_AGENT,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    data = {
+        "personIds": users
+    }
+    data_bytes = json.dumps(data).encode('utf-8')
+    request = urllib.request.Request(f'{aac_url}/iam/v1/workspaces/{workspaceid}/people/suspend', headers=headers, data=data_bytes)
+    with urllib.request.urlopen(request) as response:
+        if response.status == 200:
+            return "Success"
+        else:
+            return response.status
+
+# 指定したユーザーをサスペンドから復帰させる
+def set_unsuspend_users(aac_url, access_token, workspaceid, users):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'User-Agent': USER_AGENT,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    data = {
+        "personIds": users
+    }
+    data_bytes = json.dumps(data).encode('utf-8')
+    request = urllib.request.Request(f'{aac_url}/iam/v1/workspaces/{workspaceid}/people/unsuspend', headers=headers, data=data_bytes)
+    with urllib.request.urlopen(request) as response:
+        if response.status == 200:
+            return "Success"
+        else:
+            return response.status
+
+# 指定したユーザー(email)を招待する
+def set_invite_users(aac_url, access_token, workspaceid, emails):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'User-Agent': "AYX_CloudAPI by AK",
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    requestBody = {
+        "emails": emails
+    }
+    request = urllib.request.Request(f'{aac_url}/iam/v1/workspaces/{workspaceid}/people/batch', headers=headers, data=json.dumps(requestBody).encode('utf-8'), method='POST')
+    with urllib.request.urlopen(request) as response:
+        return json.load(response)
+
+# 指定したユーザー(email)を招待する
+def set_transfer_assets(aac_url, access_token, workspaceid, from_user, to_user):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'User-Agent': "AYX_CloudAPI by AK",
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    requestBody = {
+        "fromPersonId": from_user,
+        "toPersonId": to_user
+    }
+    request = urllib.request.Request(f'{aac_url}/iam/v1/workspaces/{workspaceid}/transfer', headers=headers, data=json.dumps(requestBody).encode('utf-8'), method='PATCH')
+    with urllib.request.urlopen(request) as response:
+        if response.status == 204:
+            return "Success"
+        else:
+            return response.status
+
 
 # ============= For Debug =============================================
 if __name__ == "__main__":
@@ -186,6 +299,53 @@ if __name__ == "__main__":
 
     print("ワークスペース設定情報：")
     print(workspaceconfiguration)
+
+    # ロールにユーザーを割り当てる
+    #polycyid = -1 # ロール
+    #users= [-1]
+    #response = set_role_to_users(AYX_CLOUD_URL, new_tokens['access_token'], polycyid, users)
+    #print("ユーザー割当のレスポンス：")
+    #print(response)
+
+    # ロールからユーザーを削除
+    #polycyid = -1 # ロール
+    #user= -1
+    #response = delete_role_from_user(AYX_CLOUD_URL, new_tokens['access_token'], polycyid, user)
+    #print("ユーザー削除のレスポンス：")
+    #print(response)
+
+    # ロールから複数ユーザーを削除
+    #polycyid = -1 # ロール
+    #user= [-1]
+    #response = delete_role_from_users(AYX_CLOUD_URL, new_tokens['access_token'], polycyid, users)
+    #print("ユーザー削除のレスポンス：")
+    #print(response)
+
+    # 指定したユーザーをサスペンドする
+    #users= [-1,-2]
+    #response = set_suspend_users(AYX_CLOUD_URL, new_tokens['access_token'], workspaceinfo['id'], users)
+    #print("ユーザーサスペンドのレスポンス：")
+    #print(response)
+
+    # 指定したユーザーをサスペンドから復帰させる
+    #users= [-1,-2]
+    #response = set_unsuspend_users(AYX_CLOUD_URL, new_tokens['access_token'], workspaceinfo['id'], users)
+    #print("ユーザーサスペンド解除のレスポンス：")
+    #print(response)
+
+    # 指定したユーザー(email)を招待する
+    #emails = ["thoughtspot@kcme.jp"]
+    #response = set_invite_users(AYX_CLOUD_URL, new_tokens['access_token'], workspaceinfo['id'], emails)
+    #print("ユーザー招待のレスポンス：")
+    #print(response)
+
+    # 指定したユーザーのアセットを別のユーザーに割り当てる
+    #from_user = -1
+    #to_user = -2
+    #response = set_transfer_assets(AYX_CLOUD_URL, new_tokens['access_token'], workspaceinfo['id'], from_user, to_user)
+    #print("所有権転送のレスポンス：")
+    #print(response)
+
 
 else:
         pass
