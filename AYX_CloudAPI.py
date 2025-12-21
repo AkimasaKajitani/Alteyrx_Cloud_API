@@ -1,6 +1,7 @@
 import urllib.parse
 import urllib.request
 import json
+import time
 
 # ============= 使い方 =============================================
 # 外部JSONファイルにCloudで取得したOAuth2.0 APIトークンのアクセストークン、リフレッシュトークンを貼り付けて保存
@@ -89,7 +90,6 @@ def get_current_workspace(aac_url, access_token):
         'Authorization': f'Bearer {access_token}',
         'User-Agent': USER_AGENT,
     }
-    print(headers)
     request = urllib.request.Request(f'{aac_url}/iam/v1/workspaces/current', headers=headers)
     with urllib.request.urlopen(request) as response:
         return json.load(response)
@@ -100,10 +100,34 @@ def get_current_billing_accounts(aac_url, access_token):
         'Authorization': f'Bearer {access_token}',
         'User-Agent': USER_AGENT,
     }
-    print(headers)
     request = urllib.request.Request(f'{aac_url}/billing/v1/my/billing-accounts/current', headers=headers)
     with urllib.request.urlopen(request) as response:
         return json.load(response)
+
+# 指定したワークスペースのユーザー一覧を取得
+def get_workspace_users(aac_url, access_token, workspaceid, offset, limit):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'User-Agent': USER_AGENT,
+        'Accept': 'application/json'
+    }
+    request = urllib.request.Request(f'{aac_url}/iam/v1/workspaces/{workspaceid}/people?includePrivileges=true&offset={offset}&limit={limit}', headers=headers)
+    with urllib.request.urlopen(request) as response:
+        return json.load(response)
+
+# 指定したワークスペースのユーザー一覧（全数）を取得
+def get_workspace_users_all(aac_url, access_token, workspaceid):
+    # ワークスペース全体のユーザー数を取得
+    current_workspace_info = get_current_workspace(aac_url, access_token)
+    totalPeople = current_workspace_info['workspace_member_count']
+
+    all_data = []
+    limit = 50
+    for offset in range(0, totalPeople, limit):
+        data = get_workspace_users(aac_url, access_token, workspaceid, offset, limit)
+        all_data.extend(data['data'])
+        time.sleep(0.5)
+    return all_data
 
 
 # ============= For Debug =============================================
@@ -126,19 +150,25 @@ if __name__ == "__main__":
     print("New Access Token:", new_tokens['access_token'])
     print("New Refresh Token:", new_tokens['refresh_token'])
 
-    # ワークスペースID取得
-    workspaceinfo = get_current_workspace(AYX_CLOUD_URL, new_tokens['access_token'])
-
-    print(workspaceinfo)
-    print(workspaceinfo['id'])
-
     # 請求情報取得
     billinginfo = get_current_billing_accounts(AYX_CLOUD_URL, new_tokens['access_token'])
 
+    print("請求情報：")
     print(billinginfo)
+    print("契約に紐づくワークスペースID：")
     print(billinginfo['data']['workspaces']) # ワークスペースID取得
 
+    # ワークスペースID取得
+    workspaceinfo = get_current_workspace(AYX_CLOUD_URL, new_tokens['access_token'])
 
+    print("ワークスペースID：")
+    print(workspaceinfo)
+    print(workspaceinfo['id'])
+
+    # ユーザー一覧取得
+    workspace_users = get_workspace_users_all(AYX_CLOUD_URL, new_tokens['access_token'], workspaceinfo['id'])
+    print("ユーザー一覧：")
+    print(workspace_users)
 
 else:
         pass
