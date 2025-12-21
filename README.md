@@ -13,6 +13,8 @@ If you want to use this API in English, I will try to translate to English. Plea
   - トークンを使ってクレデンシャルを取得するなど共通して利用可能な関数を格納しています
 - cloud_api_sample_current_workspaceinfo.py
   - OAuth2.0クレデンシャルを取得したワークスペースの基本情報を取得するサンプル
+- cloud_api_sample_current_workspaceconfiguration.py
+  - OAuth2.0クレデンシャルを取得したワークスペースの基本設定を取得するサンプル
 - cloud_api_sample_assign_role.py
   - ロールの一括アサイン用サンプル
 - cloud_api_sample_bulk_invite.py
