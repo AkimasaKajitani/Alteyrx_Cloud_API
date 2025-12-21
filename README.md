@@ -1,6 +1,6 @@
 # 本プロジェクトは何？
 
-Alteryx CloudのAPIのサンプルコード置き場です。
+Alteryx CloudのAPIのサンプルコード置き場です。Alteryx非公認のプロジェクトですので、ご利用は自己責任でお願いします。本プロジェクトの成果物を利用し、何らかの損害を被ったとしても当方は一切の責任を持ちません。
 
 
 # Why Japanese?
@@ -11,11 +11,11 @@ If you want to use this API in English, I will try to translate to English. Plea
 
 # 各ファイルの説明
 ## pyファイル
-- AYX_CloudAPI.py
-  - APIを使うにあたり共通化すべき機能（認証関係）や、実際によく使われそうな機能を実装。実装状況は[こちら](https://github.com/AkimasaKajitani/Alteyrx_Cloud_API/blob/main/AXY_Cloud_API_imprementedlist.md)です。
-- cloud_api_sample_current_workspaceinfo.py
+- axycloudapi.py
+  - Alteryx Cloud APIを使うためのサポートライブラリ。APIを使うにあたり共通化すべき機能（認証関係）や、実際によく使われそうな機能を実装。実装状況は[こちら](https://github.com/AkimasaKajitani/Alteyrx_Cloud_API/blob/main/AXY_Cloud_API_imprementedlist.md)です。
+- axy_cloud_api_current_workspaceinfo.py
   - OAuth2.0クレデンシャルを取得したワークスペースの基本情報を取得するサンプル
-- cloud_api_sample_current_workspaceconfiguration.py
+- axy_cloud_api_current_workspaceconfiguration.py
   - OAuth2.0クレデンシャルを取得したワークスペースの基本設定を取得するサンプル
 - cloud_api_sample_assign_role.py
   - ロールの一括アサイン用サンプル
@@ -31,8 +31,8 @@ If you want to use this API in English, I will try to translate to English. Plea
 
     
 ## YAMLファイル
-- cloud_api_sample_current_workspaceinfo_config.yaml
-  - cloud_api_sample_current_workspaceinfo.py 用の設定ファイル
+- axy_cloud_api_current_workspaceinfo_config.yaml
+  - axy_cloud_api_current_workspaceinfo.py 用の設定ファイル
 
 
 # 使い方
@@ -45,7 +45,7 @@ If you want to use this API in English, I will try to translate to English. Plea
 
 それぞれのサンプルコードで必要になる設定は、それぞれのコードの説明をお読みください。
 
-## cloud_api_sample_current_workspaceinfo.py
+## axy_cloud_api_current_workspaceinfo.py
 Alteryx CloudのAPIを使うために必要な情報などを取得するためのサンプルプログラムを作成しました。このコードは以下のことが実行可能です。
 - ユーザーリストの取得
 - ワークスペースの基本情報の取得（契約名、ワークスペースID、ワークスペース名）
