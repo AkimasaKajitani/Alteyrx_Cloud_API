@@ -129,6 +129,17 @@ def get_workspace_users_all(aac_url, access_token, workspaceid):
         time.sleep(0.5)
     return all_data
 
+# 指定したワークスペースの設定情報を取得
+def get_workspace_configuration(aac_url, access_token, workspaceid):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'User-Agent': USER_AGENT,
+        'Accept': 'application/json'
+    }
+    request = urllib.request.Request(f'{aac_url}/iam/v1/workspaces/{workspaceid}/configuration', headers=headers)
+    with urllib.request.urlopen(request) as response:
+        return json.load(response)
+    
 
 # ============= For Debug =============================================
 if __name__ == "__main__":
@@ -169,6 +180,12 @@ if __name__ == "__main__":
     workspace_users = get_workspace_users_all(AYX_CLOUD_URL, new_tokens['access_token'], workspaceinfo['id'])
     print("ユーザー一覧：")
     print(workspace_users)
+
+    # ワークスペース設定情報取得
+    workspaceconfiguration = get_workspace_configuration(AYX_CLOUD_URL, new_tokens['access_token'], workspaceinfo['id'])
+
+    print("ワークスペース設定情報：")
+    print(workspaceconfiguration)
 
 else:
         pass
