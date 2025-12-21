@@ -334,7 +334,7 @@ if __name__ == "__main__":
     #print(response)
 
     # 指定したユーザー(email)を招待する
-    #emails = ["thoughtspot@kcme.jp"]
+    #emails = ["youremail@example.com"]
     #response = set_invite_users(AYX_CLOUD_URL, new_tokens['access_token'], workspaceinfo['id'], emails)
     #print("ユーザー招待のレスポンス：")
     #print(response)
