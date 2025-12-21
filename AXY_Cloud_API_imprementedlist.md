@@ -2,6 +2,7 @@
 
 本ドキュメントでは、Alteryx Cloud APIに対して、AYX_CloudAPI.py の実装状況を記載しています。
 
+
 ## Billing
 本ライブラリでは一部のみ実装済み。
 
@@ -10,14 +11,14 @@
 | /billing/v1 | /my/billing-accounts/current | GET | 認証済みユーザーの現在の認証コンテキストにおける請求先アカウントを取得する |  | get_current_billing_accounts |
 |  | /usage/export | GET | 集計使用状況の取得 このAPIを使用するには、次のいずれかのロールが必要です: アカウント管理者 | アカウント管理者 |  |
 
+
 ## Identity and Access Management（IAM）
 本ライブラリのメイン実装しているAPIです。多くの組織でユーザーマネージメントが必要になりますが、ユーザーマネジメント関連のAPIを本ライブラリでは提供しています。
 
 | Lv1 | Lv2 | Lv3 | Lv4 | Lv5 | Method | 説明 | 必要ロール | AYX_CloudAPI |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| /iam/v1 | /authorization/roles/{id}/people |  |  |  | PUT | 複数のユーザーにロールを割り当てる | ワークスペース管理者 | set_role_to_users |
-|  |  | /{subjectId} |  |  | DELETE | ある特定のユーザーからロールを削除する | ワークスペース管理者 | delete_role_from_user
-delete_role_from_users |
+| /iam/v1 | /authorization<br>/roles<br>/{id}<br>/people |  |  |  | PUT | 複数のユーザーにロールを割り当てる | ワークスペース管理者 | set_role_to_users |
+|  |  | /{subjectId} |  |  | DELETE | ある特定のユーザーからロールを削除する | ワークスペース管理者 | delete_role_from_user<br>delete_role_from_users |
 |  | /people/{id} |  |  |  | GET | 既存のユーザーの詳細情報を取得する |  |  |
 |  | /workspaces | /{id} | /configuration |  | GET | ワークスペースの設定を取得する |  | get_workspace_configuration |
 |  |  |  | /invitationLink |  | GET | ある特定のユーザーの招待リンクを取得する |  |  |
@@ -28,8 +29,9 @@ delete_role_from_users |
 |  |  |  |  | /suspend | POST | 指定されたワークスペースのユーザーを停止します。 |  | set_suspend_users |
 |  |  |  |  | /unsuspend | POST | 指定されたワークスペースのユーザーの停止を解除します。 |  | set_unsuspend_users |
 |  |  |  | /transfer |  | PATCH | Alteryx One アセットをワークスペース内の別のユーザーに譲渡します。 |  | set_transfer_assets |
-|  |  | /{workspaceId}/admins |  |  | GET | 指定されたワークスペースの管理者を一覧表示する |  |  |
+|  |  | /{workspaceId}<br>/admins |  |  | GET | 指定されたワークスペースの管理者を一覧表示する |  |  |
 |  |  | /current |  |  | GET | 現在のワークスペースに関する情報を取得する |  | get_current_workspace |
+
 
 ## Plans
 本ライブラリでは未実装。
@@ -57,6 +59,7 @@ delete_role_from_users |
 |  |  | /count |  |  | GET | 指定されたクエリ パラメータに基づいて、既存のプランの合計数を取得する |
 |  |  | /package |  |  | POST | 提供されたパッケージからプランと関連フローをインポートする。 |
 
+
 ## Scheduling
 本ライブラリでは未実装。
 
@@ -70,6 +73,7 @@ delete_role_from_users |
 |  |  |  | /disable | POST | 特定のスケジュールを無効にする |
 |  |  |  | /enable | POST | 現在無効になっているスケジュールを有効にする |
 |  |  | /count |  | GET | 現在のユーザーが所有するスケジュールの合計数を取得する |
+
 
 ## Trifacta Classic
 レガシープロダクトのため未実装（実装予定なし）
